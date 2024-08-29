@@ -1,7 +1,6 @@
 package com.example.capstone3.Service;
 
 import com.example.capstone3.Api.ApiException;
-import com.example.capstone3.DTO.DailyTripDTO;
 import com.example.capstone3.Model.*;
 import com.example.capstone3.Repository.*;
 import lombok.RequiredArgsConstructor;
@@ -52,30 +51,32 @@ public class CaptainService {
         captainRepository.save(captain1);
     }
 
-    public void publishDailyTrip( DailyTripDTO dailyTripDTO) {
-        Captain captain = captainRepository.findCaptainById(dailyTripDTO.getCaptainId());
+    public void publishDailyTrip( int captainId , DailyTrip dailyTrip) {
+        Captain captain = captainRepository.findCaptainById(captainId);
         if (captain == null){
             throw new ApiException("Captain not found");
         }
-        if(captain.getDailyTrip()!=null){
-            throw new ApiException("Captain already have daily trip");
-        }
+
         if (captain.isTemporarySuspend()){
             throw new ApiException("Captain is in suspend");
         }
-        if(dailyTripDTO.getPeriod() == 1){
-            dailyTripDTO.setPrice(149);
-        }
-        if(dailyTripDTO.getPeriod() == 2){
-            dailyTripDTO.setPrice(249);
-        }
-        if(dailyTripDTO.getPeriod() == 3) {
-            dailyTripDTO.setPrice(349);
+
+        if(! captain.isActivated()){
+            throw new ApiException("captain is not activated");
         }
 
-        DailyTrip dailyTrip = new DailyTrip(null,dailyTripDTO.getPeriod(),dailyTripDTO.getPrice(),dailyTripDTO.getStartPoint(),dailyTripDTO.getDestination(),dailyTripDTO.getLeaveHour(),captain,null,null);
-        captain.setDailyTrip(dailyTrip);
-        captainRepository.save(captain);
+        if(dailyTrip.getPeriod() == 1){
+            dailyTrip.setPrice(149);
+        }
+        if(dailyTrip.getPeriod() == 2){
+            dailyTrip.setPrice(249);
+        }
+        if(dailyTrip.getPeriod() == 3) {
+            dailyTrip.setPrice(349);
+        }
+
+        captain.getDailyTrips().add(dailyTrip);
+        dailyTrip.setCaptain(captain);
         dailyTripRepository.save(dailyTrip);
     }
 
@@ -95,6 +96,10 @@ public class CaptainService {
 
         if(facdelgrp.getCaptain() != null){
             throw new ApiException("there is a captain assigned to this delivery group");
+        }
+
+        if(! captain.isActivated()){
+            throw new ApiException("captain is not activated");
         }
 
             facdelgrp.setCaptain(captain);
@@ -142,9 +147,10 @@ public class CaptainService {
             report.add("Captain phone number : " + captain.getPhoneNumber());
             report.add("Captain rate  : " + captain.getRate());
 
-            if(captain.getDailyTrip()!=null){
-                totalrev += captain.getDailyTrip().getPrice() * captain.getDailyTrip().getStudents().size() ;
-
+            if(captain.getDailyTrips()!=null){
+                for(int i=0 ; i<captain.getDailyTrips().size() ; i++) {
+                    totalrev += captain.getDailyTrips().get(i).getPrice() * captain.getDailyTrips().get(i).getStudents().size();
+                }
             }
             if(captain.getRequestRide()!=null){
                 totalrev += captain.getRequestRide().getPrice();
@@ -183,6 +189,11 @@ public class CaptainService {
         if (requestRide == null){
             throw new ApiException("RequestRide not found");
         }
+
+        if(! captain.isActivated()){
+            throw new ApiException("captain is not activated");
+        }
+
         Student stu = requestRide.getStudent();
 
         stu.setCaptain(captain);
@@ -210,7 +221,7 @@ public class CaptainService {
         {
             throw new ApiException("Student not found");
         }
-        if(cap.getDailyTrip()==null){
+        if(cap.getDailyTrips()==null){
             throw new ApiException("captain doesn't have daily trip");
         }
         List<Student> students = studentRepository.findAll();
@@ -220,8 +231,10 @@ public class CaptainService {
         List<RequestRide> rr = new ArrayList<>();
         for (int i = 0; i < students.size(); i++) {
             if(students.get(i).getRequestRide()!=null) {
-                if (cap.getDailyTrip().getStartPoint().equalsIgnoreCase(students.get(i).getRequestRide().getStartPoint()) && cap.getDailyTrip().getDestination().equalsIgnoreCase(students.get(i).getRequestRide().getDestination())) {
-                    rr.add(students.get(i).getRequestRide());
+                for(int j=0 ; j<cap.getDailyTrips().size() ; j++) {
+                    if (cap.getDailyTrips().get(j).getStartPoint().equalsIgnoreCase(students.get(i).getRequestRide().getStartPoint()) && cap.getDailyTrips().get(j).getDestination().equalsIgnoreCase(students.get(i).getRequestRide().getDestination())) {
+                        rr.add(students.get(i).getRequestRide());
+                    }
                 }
             }
         }

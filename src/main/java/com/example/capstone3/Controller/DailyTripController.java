@@ -20,19 +20,21 @@ public class DailyTripController {
 
     private final DailyTripService dailyTripService;
 
-    //CRUD created by Sulaiman
+    // Suliman
     @GetMapping("/get")
     public ResponseEntity getAllTrips() {
         return ResponseEntity.status(200).body(dailyTripService.getAllDailyTrips());
     }
 
 
+    // Suliman
     @PutMapping("/update/{id}")
     public ResponseEntity updateTrip(@PathVariable int id, @Valid @RequestBody DailyTrip dailyTrip) {
         dailyTripService.updateDailyTrip(id, dailyTrip);
         return ResponseEntity.status(200).body("Daily Trip updated successfully");
     }
 
+    // Suliman
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteTrip(@PathVariable int id) {
         dailyTripService.deleteDailyTrip(id);

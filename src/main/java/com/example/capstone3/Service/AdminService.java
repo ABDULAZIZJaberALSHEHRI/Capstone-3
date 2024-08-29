@@ -155,9 +155,10 @@ public class AdminService {
         for(Captain captain : captainRepository.findAll()){
             int totalRev = 0;
 
-            if(captain.getDailyTrip()!=null){
-                totalRev += captain.getDailyTrip().getPrice() * captain.getDailyTrip().getStudents().size() ;
-
+            if(captain.getDailyTrips()!=null){
+                for(int i=0 ; i<captain.getDailyTrips().size() ; i++) {
+                    totalRev += captain.getDailyTrips().get(i).getPrice() * captain.getDailyTrips().get(i).getStudents().size();
+                }
             }
             if(captain.getDeliveryGroup()!=null){
                 totalRev += captain.getDeliveryGroup().getPrice();
@@ -280,6 +281,16 @@ public class AdminService {
         }
         q.setAnswer(answer);
         questionRepository.save(q);
+    }
+
+
+    public void activateCaptainAccount(int captainId){
+        Captain captain = captainRepository.findCaptainById(captainId);
+        if(captain == null){
+            throw new ApiException("Captain not found");
+        }
+        captain.setActivated(true);
+        captainRepository.save(captain);
     }
 
 

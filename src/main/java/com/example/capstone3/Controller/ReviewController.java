@@ -14,24 +14,31 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    //CRUD created by Abdulrahman
+
+    // Abdulrahman
     @GetMapping("/get")
     public ResponseEntity getReviews()
     {
         return ResponseEntity.status(200).body(reviewService.getReviews());
     }
+
+    // Abdulrahman
     @PostMapping("/add")
     public ResponseEntity addReview(@Valid@RequestBody Review review)
     {
         reviewService.addReview(review);
         return ResponseEntity.status(200).body("Review added");
     }
+
+    // Abdulrahman
     @PutMapping("/update/{id}")
     public ResponseEntity updateReview(@PathVariable Integer id,@Valid@RequestBody Review review)
     {
         reviewService.updateReview(id, review);
         return ResponseEntity.status(200).body("Review updated");
     }
+
+    // Abdulrahman
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteReview(@PathVariable Integer id)
     {

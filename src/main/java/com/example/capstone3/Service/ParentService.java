@@ -7,6 +7,7 @@ import com.example.capstone3.Repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -119,5 +120,18 @@ public class ParentService {
         dailyTrip.getSuccessors().add(sc);
         successorStudentRepository.save(sc);
         dailyTripRepository.save(dailyTrip);
+    }
+
+    public List<ParentRequestRide> showParentRequestRides(int parentId){
+        List<ParentRequestRide> parentRequestRides = new ArrayList<>();
+        for(ParentRequestRide prd : parentRequestRideRepository.findAll()){
+            if(prd.getParent().getId() == parentId){
+                parentRequestRides.add(prd);
+            }
+        }
+        if(parentRequestRides.size() == 0){
+            throw new ApiException("patent doesn't have any request rides");
+        }
+        return parentRequestRides;
     }
 }

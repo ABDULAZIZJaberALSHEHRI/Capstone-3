@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -64,6 +65,8 @@ public class Captain {
 
     private LocalDate TemporarySuspendDate = null;
 
+    private boolean activated = false ;
+
 
     @OneToMany(cascade = CascadeType.ALL , mappedBy = "captain")
     private Set<Student> students ;
@@ -74,8 +77,8 @@ public class Captain {
 
 
 
-    @OneToOne(cascade = CascadeType.ALL , mappedBy = "captain")
-    private DailyTrip dailyTrip ;
+    @OneToMany(cascade = CascadeType.ALL , mappedBy = "captain")
+    private List<DailyTrip> dailyTrips ;
 
 
 

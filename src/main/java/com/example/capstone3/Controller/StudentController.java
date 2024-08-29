@@ -19,15 +19,14 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    //CRUD created by Suliman
     @GetMapping("/get")
     public ResponseEntity findAllStudents() {
         return ResponseEntity.status(200).body(studentService.getAllStudents());
     }
 
-    @PostMapping("/post/{fid}")
-    public ResponseEntity addStudent(@PathVariable int fid , @Valid @RequestBody Student student) {
-        studentService.addStudent(fid,student);
+    @PostMapping("/post")
+    public ResponseEntity addStudent(@Valid @RequestBody Student student) {
+        studentService.addStudent(student);
         return ResponseEntity.status(200).body("student added successfully");
     }
 
@@ -142,6 +141,13 @@ public class StudentController {
     public ResponseEntity getStudentByAddress(@PathVariable String address)
     {
         return ResponseEntity.status(200).body(studentService.getStudentByAddress(address));
+    }
+
+    // Suliman
+    @PutMapping("/assignstudenttofacility/{sid}/{fid}")
+    public ResponseEntity assignFacilityToStudent(@PathVariable int sid, @PathVariable int fid) {
+        studentService.assignStudentToFacility(sid,fid);
+        return ResponseEntity.status(200).body(("student facility assigned successfully"));
     }
 
 

@@ -16,25 +16,27 @@ public class AdminController {
 
     private final AdminService adminService;
 
-    //CRUD created by Suliman
-
+    // Suliman
     @GetMapping("/get")
     public ResponseEntity getAllAdmin() {
         return ResponseEntity.status(200).body(adminService.getAllAdmins());
     }
 
+    // Suliman
     @PostMapping("/post")
     public ResponseEntity addAdmin(@Valid @RequestBody Admin admin) {
         adminService.addAdmin(admin);
         return ResponseEntity.status(200).body("admin successfully added");
     }
 
+    // Suliman
     @PutMapping("/update/{id}")
     public ResponseEntity updateAdmin(@PathVariable int id, @Valid @RequestBody Admin admin) {
         adminService.updateAdmin(id, admin);
         return ResponseEntity.status(200).body("admin successfully updated");
     }
 
+    // Suliman
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteAdmin(@PathVariable int id) {
         adminService.deleteAdmin(id);
@@ -104,6 +106,13 @@ public class AdminController {
     {
         adminService.answerQuestion(aid,qid, answer);
         return ResponseEntity.status(200).body(("Question answered successfully"));
+    }
+
+    // Suliman
+    @PutMapping("/activatecaptainaccount/{captainid}")
+    public ResponseEntity activateCaptainAccount(@PathVariable int captainid) {
+        adminService.activateCaptainAccount(captainid);
+        return ResponseEntity.status(200).body(("Captain account activated successfully"));
     }
 
 }

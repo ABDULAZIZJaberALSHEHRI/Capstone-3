@@ -15,24 +15,27 @@ import org.springframework.web.bind.annotation.*;
 public class ParentController {
     private final ParentService parentService;
 
-    //CRUD created by Abdulaziz
+    // abdulaziz
     @GetMapping("/get-all-parents")
     public ResponseEntity getAllParents() {
         return ResponseEntity.ok(parentService.getAllParents());
     }
 
+    // abdulaziz
     @PostMapping("/add-parent")
     public ResponseEntity addParent(@Valid @RequestBody Parent parent) {
         parentService.addParent(parent);
         return ResponseEntity.status(200).body("parent added successfully");
     }
 
+    // abdulaziz
     @PutMapping("/update-parent/{parentid}")
     public ResponseEntity updateParent(@PathVariable int parentid, @Valid @RequestBody Parent parent) {
         parentService.updateParent(parentid, parent);
         return ResponseEntity.status(200).body("parent updated successfully");
     }
 
+    // abdulaziz
     @DeleteMapping("/delete-parent/{parentid}")
     public ResponseEntity deleteParent(@PathVariable int parentid) {
         parentService.deleteParent(parentid);
@@ -65,6 +68,13 @@ public class ParentController {
     public ResponseEntity studentJoinTrip(@PathVariable int sid, @PathVariable int dtid) {
         parentService.joinDailyTrip(sid,dtid);
         return ResponseEntity.status(200).body("Student joined daily trip successfully");
+    }
+
+    // Suliman
+    @GetMapping("/displayparentrequestrides/{parentid}")
+    public ResponseEntity showParentRequestRides(@PathVariable int parentid){
+        return ResponseEntity.status(200).body(parentService.showParentRequestRides(parentid));
+
     }
 
 }

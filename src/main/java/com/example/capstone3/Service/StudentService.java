@@ -1,7 +1,6 @@
 package com.example.capstone3.Service;
 
 import com.example.capstone3.Api.ApiException;
-import com.example.capstone3.DTO.DailyTripDTO;
 import com.example.capstone3.DTO.RequestRideDTO;
 //import com.example.capstone3.DTO.SubscriptionDTO;
 import com.example.capstone3.Model.*;
@@ -28,20 +27,17 @@ public class StudentService {
     private final QuestionRepository questionRepository;
     private final AdminRepository adminRepository;
     private final CompliantRepository compliantRepository;
+    private final ParentRequestRideRepository parentRequestRideRepository;
 
     public List<Student> getAllStudents(){
         return studentRepository.findAll();
     }
 
-    public void addStudent(int facilityId , Student student){
-        Facility facility = facilityRepository.findFacilityById(facilityId);
-        if(facility == null){
-            throw new ApiException("Facility not found");
-        }
+    public void addStudent(Student student){
+
         if(student.getAge()<18){
             throw new ApiException("Student age cannot be less than 18");
         }
-        student.setFacility(facility);
         studentRepository.save(student);
     }
 
@@ -319,9 +315,11 @@ public class StudentService {
         }
         List<DailyTrip> dt = new ArrayList<>();
         for (int i = 0; i < captains.size(); i++) {
-            if(captains.get(i).getDailyTrip()!=null) {
-                if (s.getRequestRide().getStartPoint().equalsIgnoreCase(captains.get(i).getDailyTrip().getStartPoint()) && s.getRequestRide().getDestination().equalsIgnoreCase(captains.get(i).getDailyTrip().getDestination())) {
-                    dt.add(captains.get(i).getDailyTrip());
+            if (captains.get(i).getDailyTrips() != null) {
+                for (int j = 0; j < captains.get(i).getDailyTrips().size(); j++) {
+                    if (s.getRequestRide().getStartPoint().equalsIgnoreCase(captains.get(i).getDailyTrips().get(j).getStartPoint()) && s.getRequestRide().getDestination().equalsIgnoreCase(captains.get(i).getDailyTrips().get(j).getDestination())) {
+                        dt.add(captains.get(i).getDailyTrips().get(j));
+                    }
                 }
             }
         }
@@ -352,6 +350,22 @@ public class StudentService {
         }
         return studentRepository.findStudentByAddress(address);
     }
+
+    public void assignStudentToFacility(int studentId, int facilityId){
+        Student student = studentRepository.findStudentById(studentId);
+        Facility facility = facilityRepository.findFacilityById(facilityId);
+        if(facility == null){
+            throw new ApiException("facility not found");
+        }
+        if(student == null){
+            throw new ApiException("student not found");
+        }
+        student.setFacility(facility);
+        facility.getStudents().add(student);
+        facilityRepository.save(facility);
+        studentRepository.save(student);
+    }
+
 
 
 

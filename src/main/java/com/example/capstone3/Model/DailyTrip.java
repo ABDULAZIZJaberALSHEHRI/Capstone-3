@@ -43,7 +43,7 @@ public class DailyTrip {
     @Column(columnDefinition = "time not null")
     private Time leaveHour;
 
-    @OneToOne
+    @ManyToOne
     @JsonIgnore
     private Captain captain;
 

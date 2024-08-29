@@ -1,11 +1,9 @@
 package com.example.capstone3.Controller;
 
-import com.example.capstone3.DTO.DailyTripDTO;
 import com.example.capstone3.Model.Captain;
 import com.example.capstone3.Model.DailyTrip;
 import com.example.capstone3.Service.CaptainService;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,25 +14,27 @@ import org.springframework.web.bind.annotation.*;
 public class CaptainController {
     private final CaptainService captainService;
 
-    //CRUD created by Abdulaziz
-
+    // Abdulaziz
     @GetMapping("/get")
     public ResponseEntity getAllCaptaines() {
         return ResponseEntity.status(200).body(captainService.getAllCaptains());
     }
 
+    // Abdulaziz
     @PostMapping("/add")
     public ResponseEntity addCaptain(@Valid @RequestBody Captain captain) {
         captainService.addCaptain(captain);
         return ResponseEntity.status(200).body("Captain added successfully");
     }
 
+    // Abdulaziz
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteCaptain(@PathVariable int id) {
         captainService.deleteCaptain(id);
         return ResponseEntity.status(200).body("Captain deleted successfully");
     }
 
+    // Abdulaziz
     @PutMapping("/update/{id}")
     public ResponseEntity updateCaptain(@PathVariable int id,@Valid @RequestBody Captain captain) {
         captainService.updateCaptain(id,captain);
@@ -42,9 +42,9 @@ public class CaptainController {
     }
 
     //  Suliman
-    @PutMapping("/publishtrip")
-    public ResponseEntity publishTrip(@Valid @RequestBody DailyTripDTO dailyTripDTO) {
-        captainService.publishDailyTrip(dailyTripDTO);
+    @PutMapping("/publishtrip/{cid}")
+    public ResponseEntity publishTrip(@PathVariable int cid , @Valid @RequestBody DailyTrip dailyTrip) {
+        captainService.publishDailyTrip(cid,dailyTrip);
         return ResponseEntity.status(200).body("Trip published successfully");
     }
 

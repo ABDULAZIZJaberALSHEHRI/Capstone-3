@@ -19,6 +19,7 @@ public class FacilityDeliveryGroupController {
 
     private final FacilityDeliveryGroupService facilityDeliveryGroupService;
 
+    // Suliman
     @GetMapping("/get")
     public ResponseEntity getAllFacilityDeliveryGroups() {
         return ResponseEntity.status(200).body(facilityDeliveryGroupService.getAllFacilityDeliveryGroup());

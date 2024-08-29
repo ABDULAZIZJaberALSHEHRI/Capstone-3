@@ -15,24 +15,30 @@ public class FacilityController {
 
     private final FacilityService facilityService;
 
-    //CRUD created by Abdulrahman
+    // Abdulrahman
     @GetMapping("/get")
     public ResponseEntity getFacilities()
     {
         return ResponseEntity.status(200).body(facilityService.getFacilities());
     }
+
+    // Abdulrahman
     @PostMapping("/add")
     public ResponseEntity addFacility(@Valid@RequestBody Facility facility)
     {
         facilityService.addFacility(facility);
         return ResponseEntity.status(200).body("Facility added");
     }
+
+    // Abdulrahman
     @PutMapping("/update/{id}")
     public ResponseEntity updateFacility(@PathVariable Integer id,@Valid@RequestBody Facility facility)
     {
         facilityService.updateFacility(id, facility);
         return ResponseEntity.status(200).body("Facility updated");
     }
+
+    // Abdulrahman
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteFacility(@PathVariable Integer id)
     {

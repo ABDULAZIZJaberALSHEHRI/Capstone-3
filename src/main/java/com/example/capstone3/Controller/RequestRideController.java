@@ -16,6 +16,8 @@ public class RequestRideController {
 
     private final RequestRideService requestRideService;
 
+
+    // Abdulaziz
     @GetMapping("/get")
     public ResponseEntity getAllRequestRide(){
         return ResponseEntity.status(200).body(requestRideService.getAllRequestRides());
