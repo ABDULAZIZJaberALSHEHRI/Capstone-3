@@ -9,18 +9,18 @@
             - SuccessorStudent
 
       - Methods:
-            - AdminService: displayAllComplaints();
-            - AdminService: makeWarnToCaptain();
-            - CaptainService: displayRequestRides();
-            - CaptainService: ApproveRequestRide();
-            - CaptainService: ApproveParentRequestRide();
-            - CaptainService: displayParentRequestRides();
-            - ParentService: addStudentToParent();
-            - ParentService: addRequestRideByParent();
-            - ParentService: displayCaptainsTrip();
-            - ParentService: joinDailyTrip();
-            - StudentService: ReportAllStudent();
-            - StudentService: requestRide();
-            - StudentService: cancelRequestStudent();
-            - StudentService: makeCompliant();
-            - StudentService: displayCaptainsTrip();
+            -| AdminService: displayAllComplaints();
+            -| AdminService: makeWarnToCaptain();
+            -| CaptainService: displayRequestRides();
+            -| CaptainService: ApproveRequestRide();
+            -| CaptainService: ApproveParentRequestRide();
+            -| CaptainService: displayParentRequestRides();
+            -| ParentService: addStudentToParent();
+            -| ParentService: addRequestRideByParent();
+            -| ParentService: displayCaptainsTrip();
+            -| ParentService: joinDailyTrip();
+            -| StudentService: ReportAllStudent();
+            -| StudentService: requestRide();
+            -| StudentService: cancelRequestStudent();
+            -| StudentService: makeCompliant();
+            -| StudentService: displayCaptainsTrip();
